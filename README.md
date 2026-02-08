@@ -1,118 +1,222 @@
-# Supplier Risk Analytics
+Análise de Risco de Fornecedores
 
-End-to-end data analytics project focused on monitoring and analyzing supplier risk, combining data engineering, analytics modeling and executive-level dashboards.
+Supplier Risk Analytics – Data Engineering & Analytics Project
 
----
+Projeto completo de engenharia e análise de dados ponta a ponta, focado no monitoramento, diagnóstico e projeção de risco de fornecedores, combinando ETL em Python, Data Warehouse em PostgreSQL, modelagem analítica e dashboards executivos no Power BI.
 
-## 📌 Project Overview
+🎯 Objetivo do Projeto
 
-This project simulates a real-world **supplier risk intelligence system**, designed to support decision-making in procurement, compliance and operations.
+Construir um sistema analítico capaz de:
 
-The solution consolidates operational data (delays, complaints and performance scores), transforms it into analytical models and delivers actionable insights through interactive Power BI dashboards.
+Avaliar a confiabilidade de fornecedores
 
----
+Identificar fornecedores críticos e em alto risco
 
-## 🏗️ Architecture
+Monitorar tendências de deterioração do score
 
-The project follows a modern analytics architecture:
+Apoiar decisão executiva e gestão operacional
 
-Raw Data → Python ETL → PostgreSQL Data Warehouse → SQL Analytical Views → Power BI Dashboards
+O projeto simula um cenário real corporativo, com dados realistas, regras de negócio claras e arquitetura escalável.
 
----
+🧱 Arquitetura da Solução
+Dados CSV (Raw / Trusted)
+        ↓
+ETL em Python (limpeza, enriquecimento e scoring)
+        ↓
+PostgreSQL (Data Warehouse – modelo dimensional)
+        ↓
+Views Analíticas
+        ↓
+Power BI (Dashboards Executivos e Operacionais)
 
-## 🗄️ Data Model
+🗂️ Estrutura do Repositório
+supplier-risk-analytics/
+│
+├── python/
+│   ├── data_cleaning.py
+│   ├── generate_realistic_data.py
+│   ├── reliability_score.py
+│   ├── load_dw.py
+│
+├── sql/
+│   ├── schema.sql
+│   ├── tables.sql
+│   └── views.sql
+│
+├── data/
+│   └── sample/
+│       └── README.md
+│
+├── docs/
+│   ├── dashboard_visao_executiva.png
+│   ├── dashboard_diagnostico_operacional.png
+│   ├── dashboard_fornecedores_criticos.png
+│   └── dashboard_tendencias.png
+│
+├── .env.example
+├── .gitignore
+├── requirements.txt
+└── README.md
 
-### Fact Table
-- **fato_confiabilidade_fornecedor**
-  - Supplier reliability score
-  - Average delivery delay
-  - Open complaints percentage
-  - Risk classification
-  - Date reference
+🧪 Dados Utilizados
 
-### Dimension Tables
-- **dim_fornecedor**
-- **dim_tempo**
+CNPJ / fornecedores (simulado com base em estrutura real)
 
----
+Atraso médio
 
-## 📊 Analytical Views
+Percentual de reclamações abertas
 
-The analytics layer is built using SQL views to centralize business logic:
+Score de confiabilidade
 
-- **vw_executive_snapshot**
-- **vw_supplier_risk_overview**
-- **vw_supplier_risk_summary**
-- **vw_supplier_risk_trend**
-- **vw_supplier_risk_distribution**
+Classificação de risco:
 
-These views ensure consistency and reusability across dashboards and analyses.
+Confiável
 
----
+Atenção
 
-## 📈 Dashboards
+Alto Risco
 
-### 1️⃣ Executive Risk Overview
-- Total suppliers
-- Average reliability score
-- High-risk suppliers
-- Monthly variation of high-risk suppliers
-- Risk distribution (latest month)
-- High-risk suppliers trend
+⚠️ Os dados reais não são versionados por questões de privacidade.
+O projeto inclui geração de dados realistas para simulação.
 
-### 2️⃣ Risk Analysis
-- Score distribution by risk range
-- Evolution of average score over time
-- Risk concentration analysis
+🧮 Modelagem de Dados
+🔹 Dimensões
 
-### 3️⃣ Critical Suppliers
-- High-risk suppliers overview
-- Average delay and score
-- Top suppliers with highest operational impact
+dim_fornecedor
 
-### 4️⃣ Operational Diagnostics
-- Delay vs. score correlation
-- Average delay by risk level
-- Operational performance indicators
+dim_tempo
 
-### 5️⃣ Trends and Projections
-- Average score variation (last 6 months)
-- Growth rate of high-risk suppliers
-- Score deterioration velocity
+🔹 Fato
 
----
+fato_confiabilidade_fornecedor
 
-## 🛠️ Technologies Used
+Modelo dimensional desenhado para análises históricas, comparativas e de tendência.
 
-- **Python** (Pandas, SQLAlchemy)
-- **PostgreSQL**
-- **Power BI**
-- **SQL**
-- **Git & GitHub**
+🔄 Estratégia de Carga (ETL)
+✔ Dimensões
 
----
+Carga idempotente
 
-## 🎯 Key Learnings
+Evita duplicidade de chaves
 
-- Data modeling using star schema
-- Building analytical SQL views
-- Handling time-series data
-- Designing executive and analytical dashboards
-- Translating raw data into business insights
+Pode ser executada múltiplas vezes sem erro
 
----
+✔ Fato
 
-## 🚀 Future Improvements
+Full refresh controlado
 
-- Incremental data ingestion
-- Automated data pipelines
-- Alert system for critical suppliers
-- Predictive risk modeling
-- Workflow orchestration with Airflow
+Garante consistência analítica
 
----
+Essa abordagem reflete boas práticas reais de Data Warehousing.
 
-## 👤 Author
+📊 Dashboards (Power BI)
+🔹 1. Visão Executiva – Risco de Fornecedores
 
-**Lizandra Ruiz**  
-Data Analytics & Data Engineering
+Total de fornecedores
+
+Score médio atual
+
+Quantidade em alto risco
+
+Variação mensal de risco
+
+Distribuição por classificação
+
+Evolução temporal de fornecedores críticos
+
+🔹 2. Análise de Risco de Fornecedores
+
+Distribuição por faixa de score
+
+Relação entre score e atraso
+
+Tendência de queda do score médio
+
+🔹 3. Fornecedores Críticos
+
+Top fornecedores em alto risco
+
+Ranking por atraso médio
+
+Score médio dos críticos
+
+Lista priorizada para ação
+
+🔹 4. Diagnóstico Operacional do Risco
+
+Atraso médio por nível de risco
+
+Impacto operacional no score
+
+Relação atraso × confiabilidade
+
+🔹 5. Tendências e Projeções
+
+Variação do score médio (últimos meses)
+
+Crescimento de fornecedores em alto risco
+
+Velocidade de deterioração do score
+
+🧠 Principais Insights Gerados
+
+Crescimento acelerado de fornecedores em alto risco
+
+Queda consistente do score médio ao longo do tempo
+
+Forte correlação entre atraso médio e deterioração do score
+
+Fornecedores críticos concentrados em faixas intermediárias antes de colapsar
+
+⚙️ Tecnologias Utilizadas
+
+Python (pandas, SQLAlchemy)
+
+PostgreSQL
+
+SQL (modelagem e views analíticas)
+
+Power BI
+
+Git & GitHub
+
+🚀 Como Executar o Projeto
+
+1️⃣ Clone o repositório:
+
+git clone https://github.com/Liza-life/supplier-risk-analytics.git
+
+
+2️⃣ Configure as variáveis de ambiente:
+
+cp .env.example .env
+
+
+3️⃣ Instale as dependências:
+
+pip install -r requirements.txt
+
+
+4️⃣ Execute o pipeline:
+
+python python/load_dw.py
+
+
+5️⃣ Conecte o Power BI ao PostgreSQL e explore os dashboards.
+
+💼 Contexto Profissional
+
+Este projeto foi desenvolvido com foco em:
+
+Portfólio profissional
+
+Cenários reais de negócio
+
+Boas práticas de engenharia de dados
+
+Comunicação analítica para tomada de decisão
+
+👩‍💻 Autora
+
+Lizandra Ruiz
+Engenharia de Dados | Analytics | BI
