@@ -32,31 +32,31 @@ Power BI (Dashboards Executivos e Operacionais)
 🗂️ Estrutura do Repositório
 supplier-risk-analytics/
 │
-├── python/
-│   ├── data_cleaning.py
-│   ├── generate_realistic_data.py
-│   ├── reliability_score.py
-│   ├── load_dw.py
+│ python/
+│   ├data_cleaning.py
+│   ├generate_realistic_data.py
+│   ├reliability_score.py
+│   ├load_dw.py
 │
-├── sql/
-│   ├── schema.sql
-│   ├── tables.sql
-│   └── views.sql
+├sql/
+│   ├schema.sql
+│   ├tables.sql
+│   └views.sql
 │
-├── data/
-│   └── sample/
-│       └── README.md
+├data/
+│   └sample/
+│       └README.md
 │
-├── docs/
-│   ├── dashboard_visao_executiva.png
-│   ├── dashboard_diagnostico_operacional.png
-│   ├── dashboard_fornecedores_criticos.png
-│   └── dashboard_tendencias.png
+├docs/
+│   ├dashboard_visao_executiva.png
+│   ├dashboard_diagnostico_operacional.png
+│   ├dashboard_fornecedores_criticos.png
+│   └dashboard_tendencias.png
 │
-├── .env.example
-├── .gitignore
-├── requirements.txt
-└── README.md
+├.env.example
+├.gitignore
+├requirements.txt
+└README.md
 
 🧪 Dados Utilizados
 
