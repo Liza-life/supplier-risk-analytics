@@ -1,6 +1,6 @@
 import os
 import pandas as pd
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 
 # =========================
 # CONEXÃO
@@ -61,28 +61,53 @@ fato = score[
 ].rename(columns={"data_referencia": "data_id"})
 
 # =========================
-# CARGA (ORDEM CORRETA)
+# CARGA CONTROLADA
 # =========================
-dim_fornecedor.to_sql(
-    "dim_fornecedor",
-    engine,
-    if_exists="append",
-    index=False
-)
+with engine.begin() as conn:
 
-dim_tempo.to_sql(
-    "dim_tempo",
-    engine,
-    if_exists="append",
-    index=False
-)
+    # ---- DIM FORNECEDOR (UPSERT)
+    dim_fornecedor.to_sql(
+        "dim_fornecedor",
+        conn,
+        if_exists="append",
+        index=False,
+        method="multi"
+    )
 
-fato.to_sql(
-    "fato_confiabilidade_fornecedor",
-    engine,
-    if_exists="append",
-    index=False
-)
+    conn.execute(text("""
+        DELETE FROM dim_fornecedor a
+        USING dim_fornecedor b
+        WHERE a.ctid > b.ctid
+        AND a.supplier_id = b.supplier_id;
+    """))
 
-print("✔ Data Warehouse recarregado com sucesso (full refresh)")
+    # ---- DIM TEMPO (UPSERT)
+    dim_tempo.to_sql(
+        "dim_tempo",
+        conn,
+        if_exists="append",
+        index=False,
+        method="multi"
+    )
+
+    conn.execute(text("""
+        DELETE FROM dim_tempo a
+        USING dim_tempo b
+        WHERE a.ctid > b.ctid
+        AND a.data_id = b.data_id;
+    """))
+
+    # ---- FATO (FULL REFRESH)
+    conn.execute(text("TRUNCATE TABLE fato_confiabilidade_fornecedor"))
+
+    fato.to_sql(
+        "fato_confiabilidade_fornecedor",
+        conn,
+        if_exists="append",
+        index=False,
+        method="multi"
+    )
+
+print("✅ Data Warehouse recarregado com sucesso (pipeline idempotente)")
+
 
